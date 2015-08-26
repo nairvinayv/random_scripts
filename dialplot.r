@@ -1,3 +1,4 @@
+#R-Code for generating Polar plots using the plotrix library
 library(plotrix)
 data<-read.csv('15T-epsilon.dat')
 
