@@ -1,0 +1,19 @@
+#!/bin/bash
+rm final.txt 
+
+for i in {0..20}
+do
+ cp ~/lupin/docking/terfenadine/ligplot/report$i.txt report.txt
+ sed -i '/^$/d' report.txt
+ sed -i '1,7d' report.txt
+ sed -i 's/[+= -]//g' report.txt
+ sed -i '/^\s*$/d' report.txt
+ sed -i '/RESNR/d' report.txt
+ echo $(($(sed -n '/Interactions\*\*/,/\*\*/p' <report.txt | wc -l)-2)) > temp.txt
+ echo $(($(sed -n '/Bonds\*\*/,/\*\*/p' <report.txt | wc -l)-2)) >> temp.txt
+ echo $(($(sed -n '/Bridges\*\*/,/\*\*/p' <report.txt | wc -l)-2)) >> temp.txt
+ echo $(($(sed -n '/Stacking\*\*/,/\*\*/p' <report.txt | wc -l)-1)) >> temp.txt
+ sed -i 's/^-.*/0/' temp.txt
+ sed ':a;N;$!ba;s/\n/,/g' temp.txt >> final.txt
+done
+cat final.txt
