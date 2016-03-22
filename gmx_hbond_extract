@@ -1,0 +1,63 @@
+#!/bin/bash
+clear
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+echo
+echo "Parsing hydrogen bond occupancy information from hbmap.xpm"
+grep \" hbmap.xpm > occupancy
+echo
+echo "Removing header from file"
+sed -i -e 1,8d occupancy
+echo
+echo "Calculating Occupancy and Reordering"
+tr -d -c 'o\n' < occupancy | awk '{ print length; }' | tac > bonds
+echo
+echo -e "Total no. of Hydrogen Bonds = " "\e[44m$(wc -l bonds)\e[0m"
+echo
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+echo
+echo "Extracting Index Information from .ndx file"
+sed '1,/hbond/d' hbond.ndx > occupancy
+echo
+echo "Cleaning Occupancy file"
+sed -e 's/\s\+/,/g' occupancy > occupancy_cleaned
+echo
+echo "Merging Occupancy and Hbond Indices"
+paste bonds occupancy_cleaned > occupancy
+sed -i 's/\t//g' occupancy
+rm occupancy_cleaned bonds 
+echo
+echo "Sorting Hbonds on the basis of occupancy"
+sort -g occupancy > temp 
+tac temp > occupancy
+echo
+echo "Extracting hbonds with >10% occupancy"
+temp=$(cut -d ',' -f1 occupancy | awk '$1 > 399 {print}' | wc -l)
+echo
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+echo
+echo -e "No. of hydrogen bonds with more than 10% occupancy = " "\e[44m$temp bonds\e[0m"
+head -n $((temp-1)) occupancy | cut -d ',' -f2 > temp
+head -n $((temp-1)) occupancy | cut -d ',' -f4 >> temp
+uniq temp |awk '$1 < 16865 { print }' temp  |  sort -g > temp2
+./hbond_resinfo temp2 | uniq | sed -e "s/\s\+/,/g" > residues
+echo
+echo -e "Number of residues involved in these" $temp "hbonds = " "\e[44m$(wc -l residues)\e[0m"
+echo
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' - 
+rm temp temp2 residue_information
+echo
+echo "Generating Occupancy Information"
+num_hbond=$(cut -d ',' -f1 occupancy | awk '$1 > 399 {print}' | wc -l) 
+for ((i=1;i<=$num_hbond;i++))
+do
+	hbond_donor=$(sed -n "${i}p" occupancy | cut -d ',' -f2)
+	hbond_acceptor=$(sed -n "${i}p" occupancy | cut -d ',' -f4)
+ 	sed -n "${i}p" occupancy | cut -d ',' -f1 > temp
+	awk "NR == $((hbond_donor+4))" noPBC.pdb | cut -b 14-26 | sed -e "s/\s\+/,/g" >> temp
+	awk "NR == $((hbond_acceptor+4))" noPBC.pdb | cut -b 14-26 | sed -e "s/\s\+/,/g" >> temp
+	cat temp | tr '\n' ',' >> residue_information
+	sed -i -e '$a\' residue_information
+done
+echo
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+rm temp
