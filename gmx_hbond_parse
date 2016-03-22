@@ -1,0 +1,5 @@
+#!/bin/bash
+while read line;
+do
+	sed -n $((line+2))p noPBC.pdb | cut -c 18-26
+done < $1
