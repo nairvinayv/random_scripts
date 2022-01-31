@@ -29,8 +29,8 @@ print("--------------------------")
 #pythonpath = '/home/nabina/MGLTools-1.5.6/MGLToolsPckgs/AutoDockTools/Utilities24/'
 
 
-shellpath = '/home/nabina/softwares/mgltools_x86_64Linux2_1.5.6/bin/pythonsh'
-pythonpath = '/home/nabina/softwares/mgltools_x86_64Linux2_1.5.6/MGLToolsPckgs/AutoDockTools/Utilities24/'
+shellpath = '/content/mgltools_x86_64Linux2_1.5.7/bin/pythonsh'
+pythonpath = '/content/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24'
 
 
 def receptor_prepare():  
@@ -47,7 +47,7 @@ def receptor_prepare():
         if re.match('HETATMS', line):
             fields = line.split();hetatmss.append(fields[1])    
 
-    print(chains)
+    print(chains) 
     print(hetatmss)
 
 
