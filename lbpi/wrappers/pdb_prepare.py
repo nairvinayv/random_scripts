@@ -30,7 +30,7 @@ print("--------------------------")
 
 
 shellpath = '/content/mgltools_x86_64Linux2_1.5.7/bin/pythonsh'
-pythonpath = '/content/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24'
+pythonpath = '/content/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/'
 
 
 def receptor_prepare():  
