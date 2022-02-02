@@ -22,15 +22,15 @@ print(sys.argv)
 print("--------------------------")
 
 
-#shellpath = '/home/fs/npaudyal/software/mgltools/bin/pythonsh'
-#pythonpath = '/home/fs/npaudyal/software/mgltools/MGLToolsPckgs/AutoDockTools/Utilities24/'
+#shellpath = '/home/fs/npaudyal/software/mgltools_x86_64Linux2_1.5.6/bin/pythonsh'
+#pythonpath = '/home/fs/npaudyal/software/mgltools_x86_64Linux2_1.5.6/MGLToolsPckgs/AutoDockTools/Utilities24/'
 
 #shellpath = '/home/nabina/MGLTools-1.5.6/bin/pythonsh'
 #pythonpath = '/home/nabina/MGLTools-1.5.6/MGLToolsPckgs/AutoDockTools/Utilities24/'
 
 
-shellpath = '/content/mgltools/bin/pythonsh'
-pythonpath = '/content/mgltools/MGLToolsPckgs/AutoDockTools/Utilities24/'
+shellpath = '/content/mgltools_x86_64Linux2_1.5.7/bin/pythonsh'
+pythonpath = '/content/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24'
 
 
 def receptor_prepare():  
